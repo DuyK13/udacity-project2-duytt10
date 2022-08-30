@@ -23,12 +23,12 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
       result_image = await filterImageFromURL(image_url);
     } catch (error) {
       console.error(error);
-      return res.status(400).send({ message: "can not filter image from url" });
+      return res.status(422).send({ message: "can not filter image from url" });
     }
 
     if (!result_image) {
       console.error("image is not found");
-      return res.status(400).send({ message: "image is not found" });
+      return res.status(404).send({ message: "image is not found" });
     }
 
     return res.status(200).sendFile(result_image, () => {
