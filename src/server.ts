@@ -13,9 +13,7 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
     const image_url = req.query.image_url;
 
     if (!image_url) {
-      console.error("====================================");
       console.error("image_url is required");
-      console.error("====================================");
       return res.status(400).send({ message: "image_url is required" });
     }
 
@@ -24,21 +22,18 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
     try {
       result_image = await filterImageFromURL(image_url);
     } catch (error) {
-      console.error("====================================");
       console.error(error);
-      console.error("====================================");
       return res.status(400).send({ message: "can not filter image from url" });
     }
 
     if (!result_image) {
-      console.error("====================================");
       console.error("image is not found");
-      console.error("====================================");
       return res.status(400).send({ message: "image is not found" });
     }
 
     return res.status(200).sendFile(result_image, () => {
       deleteLocalFiles([result_image]);
+      console.log(`Deleted local file: ${result_image}`);
     });
   });
 
